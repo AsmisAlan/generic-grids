@@ -1,0 +1,90 @@
+<dx-data-grid #genericGrid
+              [dataSource]="dataSource"
+              (onRowClick)="onRowClicked($event)"
+              (onContextMenuPreparing)="addMenuItems($event)"
+              [showBorders]="settings.showBorders"
+              [columnAutoWidth]="settings.columnAutoWidth"
+              [columnMinWidth]="settings.columnMinWidth"
+              [allowColumnResizing]="settings.allowColumnResizing"
+              [twoWayBindingEnabled]="settings.twoWayBindingEnabled">
+
+    <dxi-column *ngFor="let column of dataGridColumns"
+                [caption]="column.caption"
+                [dataField]="column.dataField"
+                [calculateCellValue]="column.calculateCellValue"
+                [cellTemplate]="column.cellTemplate"></dxi-column>
+
+    <div *dxTemplate="let data of 'customTemplate'">
+        <ng-container *ngTemplateOutlet="customTemplates;context:data">
+        </ng-container>
+    </div>
+
+    <!-- LOADING PANEL -->
+    <dxo-load-panel [enabled]="settings.loadPanel.enabled"
+                    [height]="settings.loadPanel.height"
+                    [width]="settings.loadPanel.width"
+                    [indicatorSrc]="settings.loadPanel.imageSrc"
+                    [message]="settings.loadPanel.message">
+    </dxo-load-panel>
+
+    <!-- SELECTION MODE -->
+    <dxo-selection [mode]="settings.selection.mode"></dxo-selection>
+
+    <!-- COLUMN CHOOSER -->
+    <dxo-column-chooser [enabled]="settings.columnChooser.enabled"
+                        [mode]="settings.columnChooser.mode">
+    </dxo-column-chooser>
+
+    <!-- FILTERS -->
+    <dxo-filter-row [visible]="settings.rowFilter.visible">
+    </dxo-filter-row>
+
+    <dxo-header-filter [visible]="settings.headerFilter.visible">
+    </dxo-header-filter>
+
+    <dxo-search-panel [visible]="settings.searchPanel.visible"
+                      [width]="settings.searchPanel.width"
+                      [placeholder]="settings.searchPanel.placeHolder">
+    </dxo-search-panel>
+
+    <!-- GROUPING -->
+
+    <dxo-grouping [contextMenuEnabled]="settings.grouping.allowGrouping">
+    </dxo-grouping>
+
+    <dxo-group-panel [visible]="settings.grouping.groupingPanel">
+    </dxo-group-panel>
+
+    <!-- PAGING & SCROLLING -->
+
+    <dxo-paging [enabled]="settings.pagination.pagingEnabled"
+                [pageSize]="settings.pagination.pageSize"></dxo-paging>
+
+    <dxo-scrolling [useNative]="settings.pagination.useNative"
+                   [mode]="settings.pagination.mode"></dxo-scrolling>
+
+    <dxo-pager [showPageSizeSelector]="settings.pagination.showPageSizeSelector"
+               [allowedPageSizes]="settings.pagination.allowedPageSizes"
+               [showNavigationButtons]="settings.pagination.showNavigationButtons">
+    </dxo-pager>
+    <!-- SUMMARIES -->
+    <dxo-summary>
+        <!-- TOTALS SUMMARIES -->
+        <dxi-total-item *ngFor="let summary of dataGridTotalSummaries"
+                        [column]="summary.column"
+                        [summaryType]="summary.summaryType"
+                        [valueFormat]="summary.format"
+                        [customizeText]="summary.customizeText"
+                        [skipEmptyValues]="summary.skipEmptyValues">
+        </dxi-total-item>
+        <!-- GROUPS SUMMARIES -->
+        <dxi-group-item *ngFor="let summary of dataGridGroupSummaries"
+                        [column]="summary.column"
+                        [summaryType]="summary.summaryType"
+                        [valueFormat]="summary.format"
+                        [customizeText]="summary.customizeText"
+                        [alignByColumn]="summary.alignByColumn"
+                        [skipEmptyValues]="summary.skipEmptyValues">
+        </dxi-group-item>
+    </dxo-summary>
+</dx-data-grid>
