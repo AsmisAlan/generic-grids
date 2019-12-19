@@ -26,7 +26,7 @@ export const environment = {
     },
     pagination: {
       mode: 'virtual',
-      pageSize: 25,
+      pageSize: 50,
       useNative: true,
       pagingEnabled: false,
       showPageSizeSelector: false,
